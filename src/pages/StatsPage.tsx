@@ -1,16 +1,24 @@
-import { useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { startOfWeek, endOfWeek, startOfMonth, endOfMonth, isWithinInterval } from 'date-fns';
+import { Sparkles } from 'lucide-react';
 import { useTaskStore } from '../store/taskStore';
 import { useCategoryStore } from '../store/categoryStore';
+import { useSettingsStore } from '../store/settingsStore';
 import { Card } from '../components/common/Card';
+import { Button } from '../components/common/Button';
 import { CategoryIcon } from '../components/categories/CategoryIcon';
 import { createProgressStyle, createIconContainerStyle } from '../utils/styleUtils';
+import { aiService } from '../services/ai';
 import type { Category, CompletionRecord, Task } from '../types';
 import styles from './StatsPage.module.css';
 
 export function StatsPage() {
     const { completions, tasks } = useTaskStore();
     const { categories, getCategoryById } = useCategoryStore();
+    const { apiKey } = useSettingsStore();
+
+    const [analysis, setAnalysis] = useState<string | null>(null);
+    const [isAnalyzing, setIsAnalyzing] = useState(false);
 
     const stats = useMemo(() => {
         const now = new Date();
@@ -54,7 +62,7 @@ export function StatsPage() {
                 const category = task ? getCategoryById(task.categoryId) : null;
                 return { task, category, count };
             })
-            .filter((t) => t.task);
+            .filter((t) => t.task) as { task: Task; category: Category | null; count: number }[];
 
         return {
             total: completions.length,
@@ -64,6 +72,27 @@ export function StatsPage() {
             topTasks,
         };
     }, [completions, tasks, categories, getCategoryById]);
+
+    const handleAnalyze = async () => {
+        if (!apiKey) {
+            alert('Lütfen önce Ayarlar sayfasından Gemini API anahtarınızı girin.');
+            return;
+        }
+
+        setIsAnalyzing(true);
+        try {
+            if (!aiService.isInitialized()) {
+                aiService.init(apiKey);
+            }
+
+            const result = await aiService.analyzeTaskHistory(completions, tasks);
+            setAnalysis(result);
+        } catch (error) {
+            alert('Analiz hatası: ' + (error as Error).message);
+        } finally {
+            setIsAnalyzing(false);
+        }
+    };
 
     const maxCategoryCount = Math.max(...stats.categoryStats.map((c: Category & { count: number }) => c.count), 1);
 
@@ -84,6 +113,46 @@ export function StatsPage() {
                     <div className={styles.overviewLabel}>Bu Ay</div>
                 </Card>
             </div>
+
+            {/* AI Analysis */}
+            {apiKey && (
+                <section className={styles.section}>
+                    <div className={styles.sectionHeader}>
+                        <h2 className={styles.sectionTitle}>
+                            <Sparkles size={20} className={styles.aiIcon} />
+                            Yapay Zeka Analizi
+                        </h2>
+                    </div>
+
+                    <Card className={styles.aiCard}>
+                        {!analysis ? (
+                            <div className={styles.aiEmptyState}>
+                                <p>Tamamlama geçmişinize dayanarak kişisel içgörüler alın.</p>
+                                <Button
+                                    onClick={handleAnalyze}
+                                    isLoading={isAnalyzing}
+                                    icon={<Sparkles size={16} />}
+                                >
+                                    Analiz Et
+                                </Button>
+                            </div>
+                        ) : (
+                            <div className={styles.aiResult}>
+                                <p>{analysis}</p>
+                                <Button
+                                    variant="secondary"
+                                    size="sm"
+                                    onClick={handleAnalyze}
+                                    isLoading={isAnalyzing}
+                                    className={styles.refreshBtn}
+                                >
+                                    Yenile
+                                </Button>
+                            </div>
+                        )}
+                    </Card>
+                </section>
+            )}
 
             {/* Category Breakdown */}
             <section className={styles.section}>
@@ -112,8 +181,8 @@ export function StatsPage() {
                 <section className={styles.section}>
                     <h2 className={styles.sectionTitle}>🏆 En Çok Tamamlanan Görevler</h2>
                     <div className={styles.topTasksList}>
-                        {stats.topTasks.map(({ task, category, count }, index: number) => (
-                            <Card key={task!.id} className={styles.topTaskCard}>
+                        {stats.topTasks.map(({ task, category, count }: { task: Task; category: Category | null; count: number }, index: number) => (
+                            <Card key={task.id} className={styles.topTaskCard}>
                                 <div className={styles.topTaskRank}>#{index + 1}</div>
                                 <div
                                     className={styles.topTaskIcon}
@@ -122,7 +191,7 @@ export function StatsPage() {
                                     <CategoryIcon name={category?.icon || 'HelpCircle'} size={20} />
                                 </div>
                                 <div className={styles.topTaskInfo}>
-                                    <div className={styles.topTaskTitle}>{task!.title}</div>
+                                    <div className={styles.topTaskTitle}>{task.title}</div>
                                     <div className={styles.topTaskCategory}>{category?.name}</div>
                                 </div>
                                 <div className={styles.topTaskCount}>{count}x</div>

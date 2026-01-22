@@ -103,3 +103,126 @@
     transform: scale(1.1) rotate(90deg);
     box-shadow: 0 6px 30px rgba(99, 102, 241, 0.6);
 }
+
+.aiButton {
+    background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+    color: white;
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-sm);
+    font-weight: 500;
+    cursor: pointer;
+    margin: 0 auto var(--spacing-md);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    transition: all var(--transition-fast);
+}
+
+.aiButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+}
+
+.aiModalContent {
+    min-height: 200px;
+}
+
+.loadingState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-2xl);
+    gap: var(--spacing-md);
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    color: #a78bfa;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.suggestionsList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.suggestionCard {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--bg-tertiary);
+    border: 1px solid transparent;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition-fast);
+    width: 100%;
+}
+
+.suggestionCard:hover {
+    background: var(--bg-secondary);
+    border-color: #a78bfa;
+    transform: translateX(4px);
+}
+
+.suggestionIcon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background: rgba(167, 139, 250, 0.1);
+    color: #a78bfa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.suggestionInfo {
+    flex: 1;
+}
+
+.suggestionInfo h4 {
+    font-size: var(--font-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.suggestionInfo p {
+    font-size: var(--font-xs);
+    color: var(--text-muted);
+}
+
+.suggestionAdd {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.suggestionCard:hover .suggestionAdd {
+    background: #a78bfa;
+    color: white;
+}

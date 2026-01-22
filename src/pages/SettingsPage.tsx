@@ -1,11 +1,11 @@
 import { useSettingsStore } from '../store/settingsStore';
 import { Card } from '../components/common/Card';
-import { Download, Upload, Trash2, Moon, Sun, Monitor } from 'lucide-react';
+import { Download, Upload, Trash2, Moon, Sun, Monitor, Sparkles, Key } from 'lucide-react';
 import { db } from '../services/database';
 import styles from './SettingsPage.module.css';
 
 export function SettingsPage() {
-    const { theme, setTheme } = useSettingsStore();
+    const { theme, setTheme, apiKey, setApiKey } = useSettingsStore();
 
     const handleExport = async () => {
         try {
@@ -90,6 +90,40 @@ export function SettingsPage() {
                             <span>Sistem</span>
                         </button>
                     </div>
+                </Card>
+            </section>
+
+            {/* AI Settings */}
+            <section className={styles.section}>
+                <h2 className={styles.sectionTitle}>
+                    <Sparkles size={20} className={styles.sectionIcon} />
+                    AI Entegrasyonu
+                </h2>
+                <Card className={styles.apiCard}>
+                    <div className={styles.apiHeader}>
+                        <div className={styles.apiIconWrapper}>
+                            <Key size={20} />
+                        </div>
+                        <div className={styles.apiInfo}>
+                            <h3>Google Gemini API Anahtarı</h3>
+                            <p>Akıllı öneriler ve analizler için gereklidir.</p>
+                        </div>
+                    </div>
+                    <div className={styles.apiInputWrapper}>
+                        <input
+                            type="password"
+                            placeholder="API Anahtarınızı buraya yapıştırın (AI...)"
+                            value={apiKey || ''}
+                            onChange={(e) => setApiKey(e.target.value)}
+                            className={styles.apiInput}
+                        />
+                    </div>
+                    <p className={styles.apiNote}>
+                        Anahtarınız sadece cihazınızda saklanır ve hiçbir sunucuya gönderilmez.
+                        <a href="https://makersuite.google.com/app/apikey" target="_blank" rel="noopener noreferrer">
+                            Anahtar al
+                        </a>
+                    </p>
                 </Card>
             </section>
 

@@ -114,3 +114,79 @@
     color: var(--text-secondary);
     line-height: 1.6;
 }
+
+.sectionIcon {
+    color: var(--color-primary);
+    margin-right: var(--spacing-sm);
+    display: inline-block;
+    vertical-align: text-bottom;
+}
+
+.apiCard {
+    padding: var(--spacing-lg);
+    border-color: #A78BFA;
+    background: linear-gradient(to bottom right, var(--bg-card), rgba(167, 139, 250, 0.05));
+    border-width: 2px;
+}
+
+.apiHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.apiIconWrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background: rgba(167, 139, 250, 0.1);
+    color: #A78BFA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.apiInfo h3 {
+    font-size: var(--font-md);
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.apiInfo p {
+    font-size: var(--font-sm);
+    color: var(--text-muted);
+}
+
+.apiInputWrapper {
+    margin-bottom: var(--spacing-md);
+}
+
+.apiInput {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-family: monospace;
+    transition: all var(--transition-fast);
+}
+
+.apiInput:focus {
+    outline: none;
+    border-color: #A78BFA;
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+}
+
+.apiNote {
+    font-size: var(--font-xs);
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+}
+
+.apiNote a {
+    color: #A78BFA;
+    text-decoration: underline;
+}

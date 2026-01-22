@@ -3,7 +3,9 @@ import { persist } from 'zustand/middleware';
 import type { AppSettings } from '../types';
 
 interface SettingsState extends AppSettings {
+    apiKey?: string;
     setTheme: (theme: AppSettings['theme']) => void;
+    setApiKey: (key: string) => void;
     toggleTheme: () => void;
 }
 
@@ -12,6 +14,9 @@ export const useSettingsStore = create<SettingsState>()(
         (set, get) => ({
             theme: 'dark',
             language: 'tr',
+            apiKey: import.meta.env.VITE_GEMINI_API_KEY || '',
+
+            setApiKey: (key) => set({ apiKey: key }),
 
             setTheme: (theme) => {
                 set({ theme });
