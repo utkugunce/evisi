@@ -2,7 +2,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import type { CompletionRecord, Task } from '../types';
 
 export const AI_MODELS = {
-    GEMINI_PRO: 'gemini-pro',
+    GEMINI_PRO: 'gemini-1.5-flash',
 };
 
 export class AIService {
@@ -55,14 +55,20 @@ export class AIService {
             const response = await result.response;
             const text = response.text();
 
-            // Extract JSON from markdown code blocks if present
-            const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/```([\s\S]*?)```/);
-            const jsonStr = jsonMatch ? jsonMatch[1] : text;
+            let jsonStr = text;
+
+            // Try to find JSON array brackets
+            const startIndex = text.indexOf('[');
+            const endIndex = text.lastIndexOf(']');
+
+            if (startIndex !== -1 && endIndex !== -1) {
+                jsonStr = text.substring(startIndex, endIndex + 1);
+            }
 
             return JSON.parse(jsonStr);
         } catch (error) {
             console.error('AI Suggestion Error:', error);
-            throw new Error('Görev önerileri alınamadı.');
+            throw new Error(`Görev önerileri alınamadı: ${(error as Error).message}`);
         }
     }
 
