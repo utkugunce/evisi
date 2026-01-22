@@ -1,0 +1,116 @@
+.page {
+    padding: var(--spacing-lg);
+    padding-bottom: calc(80px + var(--spacing-lg));
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.sectionTitle {
+    font-size: var(--font-lg);
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+}
+
+.themeCard {
+    padding: var(--spacing-md);
+}
+
+.themeOptions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-sm);
+}
+
+.themeOption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    border: 2px solid transparent;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--text-secondary);
+}
+
+.themeOption:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.themeOption.active {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+}
+
+.dataActions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.dataCard {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    cursor: pointer;
+}
+
+.dataIcon {
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.dataInfo h3 {
+    font-size: var(--font-md);
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.dataInfo p {
+    font-size: var(--font-sm);
+    color: var(--text-muted);
+}
+
+.danger .dataIcon {
+    color: var(--color-danger);
+}
+
+.danger:hover {
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.aboutCard {
+    text-align: center;
+    padding: var(--spacing-xl);
+}
+
+.appName {
+    font-size: var(--font-2xl);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--color-primary), #A78BFA);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--spacing-xs);
+}
+
+.version {
+    font-size: var(--font-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-md);
+}
+
+.description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}

@@ -1,0 +1,9 @@
+{
+    "connector": {
+        "name": "local"
+    },
+    "extends": ["accessibility"],
+    "hints": {
+        "no-inline-styles": "off"
+    }
+}

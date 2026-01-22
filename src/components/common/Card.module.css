@@ -1,0 +1,53 @@
+.card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    padding: var(--spacing-md);
+    transition: all var(--transition-normal);
+}
+
+.hoverable {
+    cursor: pointer;
+}
+
+.hoverable:hover {
+    border-color: var(--border-color-hover);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.glass {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+}
+
+.gradient {
+    position: relative;
+    overflow: hidden;
+    border: none;
+}
+
+.gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-color, var(--color-primary));
+}
+
+.gradient::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+            color-mix(in srgb, var(--gradient-color, var(--color-primary)) 10%, transparent),
+            transparent 50%);
+    pointer-events: none;
+}
